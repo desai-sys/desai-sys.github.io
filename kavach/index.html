@@ -4,79 +4,290 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kavach Scam Shield</title>
-<meta name="description" content="Kavach Scam Shield: forward any suspicious message, link, screenshot or voice note on WhatsApp and know in a minute if it's a scam.">
+<meta name="description" content="Kavach Scam Shield: forward any suspicious message, link, screenshot, PDF or voice note on WhatsApp and know in a minute if it's a scam. Real public data, family alerts, SOS and everyday help, in Telugu, Hindi or English.">
+<meta property="og:title" content="Kavach Scam Shield">
+<meta property="og:description" content="A scam shield on WhatsApp for Indian families, built on AWS.">
+<meta property="og:image" content="https://desai-sys.github.io/kavach/img/evidence.jpg">
 <style>
   :root {
     --bg: #fbf8f3; --card: #ffffff; --ink: #1c1917; --muted: #57534e; --line: #e7e5e4;
-    --accent: #b45309; --accent-ink: #ffffff; --tint: #fef3c7;
+    --accent: #b45309; --accent-ink: #ffffff; --tint: #fef3c7; --ok: #15803d; --bad: #b91c1c;
   }
   @media (prefers-color-scheme: dark) {
     :root { --bg: #171412; --card: #221e1b; --ink: #f5f5f4; --muted: #a8a29e; --line: #3a3430;
-            --accent: #f59e0b; --accent-ink: #1c1917; --tint: #3a2a12; }
+            --accent: #f59e0b; --accent-ink: #1c1917; --tint: #3a2a12; --ok: #4ade80; --bad: #f87171; }
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body { margin: 0; background: var(--bg); color: var(--ink);
          font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Telugu", "Noto Sans Devanagari", sans-serif; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; }
   .brand { font-weight: 800; font-size: 20px; letter-spacing: .2px; }
   .brand span { color: var(--accent); }
-  .hero { padding: 56px 0 40px; }
-  h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.15; margin: 0 0 16px; }
-  .lead { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0 0 8px; }
-  .langs { color: var(--muted); margin: 0 0 28px; }
+  nav { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--ink); }
+  .hero { padding: 48px 0 36px; display: grid; grid-template-columns: 1fr 1.15fr; gap: 32px; align-items: center; }
+  h1 { font-size: clamp(30px, 5.4vw, 46px); line-height: 1.15; margin: 0 0 16px; text-wrap: balance; }
+  .lead { font-size: 19px; color: var(--muted); max-width: 560px; margin: 0 0 8px; }
+  .langs { color: var(--muted); margin: 0 0 24px; }
   .btn { display: inline-block; background: var(--accent); color: var(--accent-ink); text-decoration: none;
          font-weight: 700; padding: 14px 22px; border-radius: 10px; }
-  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
-  h2 { font-size: 24px; margin: 0 0 16px; }
-  section { padding: 32px 0; border-top: 1px solid var(--line); }
+  .btn.ghost { background: transparent; color: var(--accent); border: 2px solid var(--accent); padding: 12px 20px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn:focus-visible, nav a:focus-visible, figure a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  h2 { font-size: clamp(24px, 3.6vw, 30px); line-height: 1.2; margin: 0 0 12px; text-wrap: balance; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  section { padding: 40px 0; border-top: 1px solid var(--line); scroll-margin-top: 12px; }
+  .intro { color: var(--muted); max-width: 720px; margin: 0 0 20px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
   .card h3 { margin: 0 0 6px; font-size: 18px; }
   .card p { margin: 0; color: var(--muted); }
   .num { display: inline-block; width: 28px; height: 28px; border-radius: 50%; background: var(--tint);
          color: var(--ink); font-weight: 700; text-align: center; line-height: 28px; margin-bottom: 8px; }
+  .split { display: grid; grid-template-columns: 1fr 1.25fr; gap: 28px; align-items: start; }
+  .split.flip { grid-template-columns: 1.25fr 1fr; }
+  .split > * { min-width: 0; }
+  figure { margin: 0; }
+  figure img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .wide { margin-top: 20px; }
+  ul.ticks { list-style: none; padding: 0; margin: 0; }
+  ul.ticks li { position: relative; padding-left: 26px; margin: 8px 0; }
+  ul.ticks li::before { content: "✓"; position: absolute; left: 0; color: var(--ok); font-weight: 800; }
+  ul.crosses li::before { content: "✕"; color: var(--bad); }
   .alert { background: var(--tint); border-radius: 12px; padding: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding: 0; list-style: none; }
+  .chips li { border: 1px solid var(--line); background: var(--card); border-radius: 99px; padding: 4px 12px; font-size: 14px; }
   ul { padding-left: 20px; margin: 0; }
   li { margin: 6px 0; }
+  .note { font-size: 14px; color: var(--muted); }
   footer { padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
   a { color: var(--accent); }
+  @media (max-width: 820px) {
+    .hero, .split, .split.flip { grid-template-columns: 1fr; }
+    .split.flip figure { order: 2; }
+  }
 </style>
 </head>
 <body>
-<header><div class="wrap"><div class="brand">Kavach <span>Scam Shield</span></div></div></header>
+<header>
+  <div class="wrap">
+    <div class="brand">Kavach <span>Scam Shield</span></div>
+    <nav aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#danger">Danger</a>
+      <a href="#partners">Partners</a>
+      <a href="#everyday">Everyday help</a>
+      <a href="#tech">Under the hood</a>
+      <a href="#privacy">Privacy</a>
+    </nav>
+  </div>
+</header>
 
 <main class="wrap">
   <div class="hero">
-    <h1>Forward anything suspicious. Know in a minute if it's a scam.</h1>
-    <p class="lead">Kavach Scam Shield checks messages, links, screenshots, PDFs and voice notes on WhatsApp, and pulls your family in when someone is in danger.</p>
-    <p class="langs">తెలుగు · हिन्दी · English</p>
-    <a class="btn" href="https://wa.me/916299026473?text=hi">Message Kavach on WhatsApp</a>
+    <div>
+      <h1>Forward anything suspicious. Know in a minute if it's a scam.</h1>
+      <p class="lead">Kavach Scam Shield checks messages, links, screenshots, PDFs and voice notes on WhatsApp against real public data, and pulls your family in when someone is in danger.</p>
+      <p class="langs">తెలుగు · हिन्दी · English</p>
+      <div class="btns">
+        <a class="btn" href="https://wa.me/916299026473?text=hi">Message Kavach on WhatsApp</a>
+        <a class="btn ghost" href="#how">See how it works</a>
+      </div>
+    </div>
+    <figure>
+      <a href="img/evidence.jpg"><img src="img/evidence.jpg" width="1600" height="816" alt="A forwarded forex trading ad on the left; on the right, Kavach's evidence panel shows RBI's Alert List names Quotex, with SEBI, NPCI and Google Safe Browsing checked, and a one-tap Chakshu report."></a>
+      <figcaption>A trading ad, checked against RBI's Alert List before any AI runs.</figcaption>
+    </figure>
   </div>
 
-  <section>
-    <h2>How it works</h2>
+  <section id="how">
+    <p class="kicker">How it works</p>
+    <h2>Three steps, on the app she already uses</h2>
     <div class="grid">
-      <div class="card"><div class="num">1</div><h3>Forward it</h3><p>Send Kavach the message, link, screenshot, PDF, or a voice note describing a call.</p></div>
-      <div class="card"><div class="num">2</div><h3>Kavach investigates</h3><p>An AI agent opens links in a safe sandbox, reads images, checks reported numbers and matches known scam patterns.</p></div>
-      <div class="card"><div class="num">3</div><h3>Clear answer</h3><p>A verdict in your language, the reasons, and exactly what to do next.</p></div>
+      <div class="card"><div class="num">1</div><h3>Forward it</h3><p>Send Kavach the message, link, screenshot, PDF, or a voice note describing a call. No app to install, no commands to learn.</p></div>
+      <div class="card"><div class="num">2</div><h3>Evidence first</h3><p>Real public data is checked in code before the AI model runs, and sets a minimum verdict the model can't soften.</p></div>
+      <div class="card"><div class="num">3</div><h3>Clear answer</h3><p>A verdict in Telugu, Hindi or English, the reasons, exactly what to do next, and a one-tap report to the government.</p></div>
     </div>
   </section>
 
-  <section>
-    <h2>When someone is in danger</h2>
-    <div class="grid">
-      <div class="card"><h3>Family alert</h3><p>If a parent is on a fake "police" or "CBI" call, Kavach alerts the family members they chose, and alerts again if nobody responds.</p></div>
-      <div class="card"><h3>Golden hour</h3><p>If money was already sent, Kavach prepares the complaint for the 1930 helpline, emails the bank fraud desk and checks back in 15 minutes.</p></div>
+  <section id="evidence">
+    <div class="split">
+      <div>
+        <p class="kicker">Real public data</p>
+        <h2>Checked against the sources India already publishes</h2>
+        <ul class="ticks">
+          <li><strong>RBI Alert List</strong> of unauthorised forex trading platforms, refreshed weekly</li>
+          <li><strong>SEBI validated UPI IDs</strong>: registered brokers collect money only on @valid handles</li>
+          <li><strong>NPCI's list of UPI apps</strong>: which @handle belongs to which app</li>
+          <li><strong>Google Safe Browsing</strong> for phishing and malware links</li>
+          <li><strong>TRAI's 1600 series</strong> for genuine bank and financial service calls</li>
+          <li><strong>CDSCO drug alerts</strong>: medicine batches that failed government lab tests</li>
+          <li>Lookalike websites, new domains, community reports from other families</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>One-tap reporting</h3>
+        <p>After a scam verdict, one tap prepares the report for the government's Chakshu portal (sancharsaathi.gov.in/sfc): the medium, the category and the exact text to paste. Kavach adds the cybercrime.gov.in Check Suspect steps for numbers and UPI IDs, the 1909 sender check for SMS, and the 1930 helpline if money was paid.</p>
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>Your safety and privacy</h2>
-    <ul>
+  <section id="danger">
+    <p class="kicker">When someone is in danger</p>
+    <h2>The family steps in within seconds</h2>
+    <div class="split flip">
+      <figure>
+        <a href="img/family-alert.jpg"><img src="img/family-alert.jpg" width="1600" height="816" loading="lazy" alt="Amma's phone sends a voice note about a fake CBI video call and gets 'Hang up now' and 'I have alerted Ravi'. Ravi's phone shows a Kavach safety alert with I'm calling now and I've reached them buttons."></a>
+        <figcaption>A voice note about a "digital arrest" call: Amazon Transcribe turns it into text and Ravi is alerted.</figcaption>
+      </figure>
+      <div>
+        <ul class="ticks">
+          <li><strong>Family alert:</strong> danger happening now, in her own words, alerts the family she chose, with <em>I'm calling now</em> and <em>I've reached them</em> buttons.</li>
+          <li><strong>Escalation:</strong> if nobody taps, Kavach alerts again at 5 minutes and emails at 10.</li>
+          <li><strong>Golden hour:</strong> money already sent? Kavach prepares the 1930 complaint, emails the bank's fraud desk and family, and checks in after 15 minutes.</li>
+          <li><strong>Safety-critical steps run in code</strong>, so an alert never depends on the AI remembering to send it.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="split wide">
+      <div>
+        <h3>Type HELP: SOS with her location</h3>
+        <ul class="ticks">
+          <li>One word alerts every family contact in seconds, with no AI in the path.</li>
+          <li>She taps <em>Send location</em>; Amazon Location Service adds her address and the nearest police station and hospital.</li>
+          <li><em>I'm safe now</em> stands everyone down. No location shared? Kavach falls back to her district.</li>
+        </ul>
+      </div>
+      <figure>
+        <a href="img/sos.jpg"><img src="img/sos.jpg" width="1600" height="816" loading="lazy" alt="Amma types HELP and shares her location; Ravi's phone shows the SOS alert, a map pin, her address and the nearest police station and hospital."></a>
+        <figcaption>HELP on Amma's phone; the SOS, map pin and nearest help on Ravi's.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="partners">
+    <p class="kicker">Partner businesses</p>
+    <h2>Her bank or insurer answers for itself</h2>
+    <p class="intro">When a message claims to come from a Kavach partner, Kavach checks it against her own record instead of guessing: "your policy lapses today" against "active until 31 March 2027". One tap shows the real policy, asks for a call back, or sends the fake site to the partner's fraud desk.</p>
+    <figure>
+      <a href="img/partner-check.jpg"><img src="img/partner-check.jpg" width="1600" height="816" loading="lazy" alt="A fake insurance lapse message gets a scam verdict: Nidhira Health confirms the policy is active until 31 March 2027; buttons My real policy, Call me back and Report this scam; and the fraud-desk email."></a>
+      <figcaption>Nidhira Health Insurance is a fictional demo partner.</figcaption>
+    </figure>
+    <div class="split wide">
+      <div>
+        <h3>A thin, masked slice, never the customer database</h3>
+        <ul class="ticks">
+          <li>Only customers who opt in are linked, by the mobile number the partner already has.</li>
+          <li>Kavach sees policy or account status, key dates and masked account numbers.</li>
+          <li>Partners get anonymous scam signals, and her details only when she taps Report or Call me back.</li>
+          <li>A bank or insurer can run Kavach inside its own AWS account, so records never leave it.</li>
+        </ul>
+        <ul class="ticks crosses" style="margin-top:12px">
+          <li>Never shared: Aadhaar, PAN, balances, medical records, passwords, PINs, OTPs, other customers.</li>
+        </ul>
+      </div>
+      <figure>
+        <a href="img/partner-privacy.jpg"><img src="img/partner-privacy.jpg" width="1600" height="816" loading="lazy" alt="Diagram: the partner's customer database with only the opted-in row lit; what Kavach sees; what is never shared; what goes back to the partner."></a>
+        <figcaption>What a partner shares with Kavach, and what it never does.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="everyday">
+    <p class="kicker">Everyday help</p>
+    <h2>Useful on ordinary days too</h2>
+    <div class="grid">
+      <div class="card"><h3>Doctor booking</h3><p>"I have fever since yesterday" finds the right doctor at a partner clinic, lists real hospitals nearby, and books a token when she taps a time, with a reminder before the visit.</p></div>
+      <div class="card"><h3>Safe shopping</h3><p>"I want to buy a pressure cooker" gets official Amazon and Flipkart links, never an ad's lookalike, plus a warning when a deal looks too good.</p></div>
+      <div class="card"><h3>Medicine check</h3><p>A batch number or a photo of the strip is checked against CDSCO's monthly alerts: "Don't take this batch, show it to your pharmacist."</p></div>
+    </div>
+    <figure class="wide">
+      <a href="img/everyday.jpg"><img src="img/everyday.jpg" width="1600" height="825" loading="lazy" alt="Three phones: a doctor appointment booked at Dhanvi Family Clinic, official Amazon and Flipkart links for a pressure cooker, and a CDSCO alert for a Thyrox 100 batch."></a>
+      <figcaption>Doctor booking, official store links and a CDSCO medicine alert. Dhanvi Family Clinic is a fictional demo partner.</figcaption>
+    </figure>
+  </section>
+
+  <section id="settings">
+    <div class="split">
+      <div>
+        <p class="kicker">Settings</p>
+        <h2>One tap, in her language</h2>
+        <ul class="ticks">
+          <li><strong>MENU</strong> opens everything: language, family contacts, linked services, district, pause.</li>
+          <li>Change language midway; every reply follows.</li>
+          <li>Add family by name and number or by sharing a contact card, and send a test alert.</li>
+          <li><strong>Linked services</strong> shows which partners are linked, what each shares, and an Unlink button.</li>
+          <li>Send <strong>STOP</strong> to pause at any time; HELP still works.</li>
+        </ul>
+      </div>
+      <figure>
+        <a href="img/settings.jpg"><img src="img/settings.jpg" width="1200" height="800" loading="lazy" alt="Kavach's settings list in WhatsApp: Language, Family contacts, Add family member, Linked services, District, Pause Kavach, What Kavach can do."></a>
+        <figcaption>A real WhatsApp screenshot; family names blurred.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="more">
+    <p class="kicker">Also built in</p>
+    <h2>More ways Kavach looks out for families</h2>
+    <div class="grid">
+      <div class="card"><h3>Screenshots, PDFs and emails</h3><p>Amazon Nova reads screenshots and PDF "notices". Forward a suspicious email and the verdict comes back by email.</p></div>
+      <div class="card"><h3>Voice notes</h3><p>Telugu, Hindi and English voice notes are transcribed with Amazon Transcribe, so she can just describe the call.</p></div>
+      <div class="card"><h3>District scam-wave alerts</h3><p>When reports of one scam spike in a district, everyone there who uses Kavach gets a WhatsApp warning.</p></div>
+      <div class="card"><h3>Sunday family digest</h3><p>Family gets a weekly email: what was checked, what was blocked, and anything to follow up.</p></div>
+    </div>
+  </section>
+
+  <section id="ops">
+    <div class="split flip">
+      <figure>
+        <a href="img/aws-ops.jpg"><img src="img/aws-ops.jpg" width="1600" height="816" loading="lazy" alt="The owner's WhatsApp asks for Kavach's health and the AWS bill, then stops a server after tapping Yes; beside it, the safety rules of ops mode."></a>
+        <figcaption>Owner mode: AWS from WhatsApp, with a Yes tap before any change.</figcaption>
+      </figure>
+      <div>
+        <p class="kicker">For the person who runs it</p>
+        <h2>AWS from WhatsApp, safely</h2>
+        <ul class="ticks">
+          <li>Ask in plain words for Kavach's health, the month's AWS bill, servers and WhatsApp templates.</li>
+          <li>Start, stop or reboot one server, only after a Yes tap; requests expire in 10 minutes.</li>
+          <li>Only allow-listed owner numbers; the ops agent has a read-only AWS role.</li>
+          <li>No terminate, no delete, no IAM or security-group changes.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="tech">
+    <p class="kicker">Under the hood</p>
+    <h2>Evidence first, the model second, a guard last</h2>
+    <p class="intro">WhatsApp reaches Kavach through AWS End User Messaging Social. A Strands agent on Amazon Bedrock AgentCore, with Memory and Browser, runs Amazon Nova 2 Lite. Code checks the evidence before the model runs, and a guard after it makes sure a reply is never milder than the facts, never invents a link or number, and comes in her language.</p>
+    <figure>
+      <a href="img/architecture.png"><img src="img/architecture.png" width="2400" height="1690" loading="lazy" alt="Architecture diagram of Kavach on AWS: End User Messaging Social and SNS feed an inbound Lambda, which uses Transcribe, S3 and Location Service and calls the agent on Bedrock AgentCore; EventBridge Scheduler, Lambda and SES handle follow-ups; DynamoDB, Parameter Store, CloudWatch and IAM support it all."></a>
+      <figcaption>Kavach on AWS, Asia Pacific (Mumbai). Open the image for full size.</figcaption>
+    </figure>
+    <ul class="chips" aria-label="AWS services used">
+      <li>AWS End User Messaging Social</li><li>Amazon Bedrock AgentCore</li><li>Amazon Nova</li><li>AWS Lambda</li>
+      <li>Amazon SNS</li><li>Amazon DynamoDB</li><li>Amazon S3</li><li>Amazon EventBridge Scheduler</li><li>Amazon SES</li>
+      <li>Amazon Transcribe</li><li>Amazon Location Service</li><li>AWS Systems Manager</li><li>Amazon CloudWatch</li>
+      <li>AWS IAM</li><li>AWS SAM</li>
+    </ul>
+  </section>
+
+  <section id="privacy">
+    <p class="kicker">Safety and privacy</p>
+    <h2>Built to protect, not to collect</h2>
+    <ul class="ticks">
       <li>Kavach never asks for OTPs, PINs, passwords or card numbers.</li>
-      <li>Kavach asks for your consent before checking anything. Send STOP at any time to turn it off.</li>
-      <li>Files you send are deleted after 7 days. Read the <a href="privacy.html">privacy policy</a>.</li>
+      <li>Kavach asks for consent before checking anything. Send STOP at any time to turn it off.</li>
+      <li>Files you send are deleted after 7 days. Community reports keep the scammer's identifiers, never yours.</li>
+      <li>Links are opened in an isolated cloud browser that never fills in forms.</li>
+      <li>Partners share only a masked, opt-in slice of a customer's record. Read the <a href="privacy.html">privacy policy</a>.</li>
     </ul>
   </section>
 
@@ -85,6 +296,7 @@
       <strong>Lost money to a scam?</strong> Call <strong>1930</strong> right away, or report at
       <a href="https://cybercrime.gov.in">cybercrime.gov.in</a>. Reporting within minutes gives the best chance of the money being held.
     </div>
+    <p class="note">Chat screens in the images are recreated from Kavach's real flow, with phone numbers masked. Partner businesses shown are fictional demo partners.</p>
   </section>
 </main>
 
